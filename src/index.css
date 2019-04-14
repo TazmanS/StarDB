@@ -1,0 +1,105 @@
+body{
+    background-color: black;
+    color: white;
+    font-size: 24px;
+}
+
+a{
+    text-decoration: none;
+    color: grey;
+}
+
+a:hover{
+    text-decoration: none;
+    color: yellow;
+}
+
+li{
+    margin: 10px 0 ;
+    list-style-type: none;
+    cursor: pointer;
+}
+
+.App {
+    width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.AppBody{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.Header{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 30px 0;
+}
+
+.Header .HeaderLogo{
+    font-size: 48px;
+}
+
+.Header .HeaderLinks a{
+    margin: 0 10px;
+}
+
+.RPbody{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.RPbody img{
+    width: 250px;
+    height: 250px;
+    border-radius: 25%;
+    border: 3px solid white;
+}
+
+.RPbody li{
+    cursor: auto;
+}
+
+.Wellcome{
+    margin: 30px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Wellcome>div{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+}
+
+.Wellcome a{
+    margin: 0 10px;
+}
+
+.Wellcome a img{
+    border: 3px solid white;
+    width: 250px;
+    height: auto;
+}
+
+
+.Details li{
+    cursor: auto;
+}
+
+.Details img{
+    width: 150px;
+    height: auto;
+}
+
+.Footer{
+    text-align: center;
+    margin-bottom: 50px;
+}
