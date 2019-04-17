@@ -1,8 +1,7 @@
 
 const initialState = {
     planet: {},
-    id: 3,
-    loading: true
+    id: 3
 }
 
 const displayRandomPlanet = function(state = initialState, actions){
@@ -10,8 +9,7 @@ const displayRandomPlanet = function(state = initialState, actions){
         case "UPDATE":
             return{
                 planet: actions.planet,
-                id: actions.id,
-                loading: false
+                id: actions.id
             }
 
         default: 

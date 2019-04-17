@@ -2,7 +2,7 @@ import React,  {Component } from 'react'
 
 class ItemList extends Component{
    
-    render(){
+    render(){ 
         const item = this.props.items.map((item, index) => {
             return(
                 <li key={index}

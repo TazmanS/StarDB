@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import Swapi from '../Swapi'
 import Footer from './../Footer/Footer'
 import Header from './../Header/Header'
-import ItemList from './../ItemList/ItemList'
 import RandomPlanet from './../RandomPlanet/RandomPlanet'
-import PersonDetails from "./../PersonDetails/PersonDetails"
-import PlanetDetails from '../PlanetDetails/PlanetDetails'
-import StarshipDetails from '../StarshipDetails/StarshipDetails'
 import Wellcome from '../Wellcome/Wellcome'
-import {BrowserRouter as Router, Route} from 'react-router-dom'
-//import {connect} from 'react-redux'
+import AppBody from '../AppBody/AppBody'
+import {BrowserRouter as Router} from 'react-router-dom'
+import {connect} from 'react-redux'
+import PropTypes from 'prop-types'
 
 
 class App extends Component {
@@ -18,60 +16,45 @@ class App extends Component {
   swapi = new Swapi();
 
   state = {
-    item: {},//одиночный элемент(Planet,People,Starship)
-    items: [],//массив элементов(Planet,People,Starship)
-    index: null,//index(id) одиночного элемента
-    flag: "",//флаг массива элементов
     loadingWellcome: true,//загрузка главной страницы
     loadingItem: true,//загрузка одиночного элемента
     loadingItemList: true//загрузка списка элементов
   }
 
-  cleanState = () => {
+  cleanLoading = () => {
     this.setState({
-      item: {},
-      items: [], 
-      index: null,
       loadingWellcome: true,
-      flag: ""
+      loadingItemList: false,
+      loadingItem: true
     })
   }
-  //обновение state после обращения к API
-  updateState = (items, url) => {
-    this.setState({
-      items: items.results,
-      flag: url,
-      index: null,
-      item: {},
-      loadingWellcome: false,
-      loadingItemList: false
-    })
-  }
-  //Получение списка
-  displayAllItems = (url) =>{
 
-    this.setState({loadingItemList: true, items: []})
+  //Получение списка
+  displayItems = (url) =>{
+
+    this.setState({loadingItemList: true, loadingWellcome: false})
 
     if(url === 'PEOPLE'){
       this.swapi.getAllPeople()
-        .then((items) => {
-          this.updateState(items, url)
-        })
-    }
+        .then((items) => this.displayItemsUpdateState(items, url) )
+    }      
+        
     else if(url === 'PLANET'){
       this.swapi.getAllPlanet()
-        .then((items) => {
-          this.updateState(items, url)
-        })
-    }
+        .then((items) => this.displayItemsUpdateState(items, url) )
+    }      
+        
     else if(url === 'STARSHIP'){
       this.swapi.getAllStarship()
-        .then((items) => {
-          this.updateState(items, url)
-        })
-    }
-    
+        .then((items) => this.displayItemsUpdateState(items, url) )
+    }       
   }
+  //функция обновления state для displayItems
+  displayItemsUpdateState = (items, url) => {
+    this.props.updateItems(items, url)
+    this.setState({loadingItemList: false})
+  }
+
   //Получение элемента
   displayItem = (url) =>{
 
@@ -81,67 +64,48 @@ class App extends Component {
 
     this.setState({loadingItem: true})
 
-    if(this.state.flag === "PEOPLE"){
+    if(this.props.flag === "PEOPLE"){
       this.swapi.getPeople(index)
-        .then((item) => {
-          this.setState({item, index, loadingItem: false})
-        })
+      .then((item) => this.displayItemUpdateState(item, index) )
     }
-    else if(this.state.flag === "PLANET"){
+
+    else if(this.props.flag === "PLANET"){
       this.swapi.getPlanet(index)
-        .then((item) => {
-          this.setState({item, index, loadingItem: false})
-        })
+      .then((item) => this.displayItemUpdateState(item, index) )
     }
-    else if(this.state.flag === "STARSHIP"){
+    
+    else if(this.props.flag === "STARSHIP"){
       this.swapi.getStarship(index)
-        .then((item) => {
-          this.setState({item, index, loadingItem: false})
-        })
+        .then((item) => this.displayItemUpdateState(item, index) )
     }
+  }
+  //функция обновления state для displayItem
+  displayItemUpdateState = (item, index) => {
+    this.props.updateItem(item, index)
+    this.setState({loadingItem: false})
   }
 
   render() {
 
-    const body = this.state.loadingWellcome
+    const {items, item, index} = this.props;
+    const {loadingItem, loadingItemList, loadingWellcome} = this.state;
+
+    const body = loadingWellcome
     ? 
-    <Wellcome displayAllItems={this.displayAllItems}/> 
+    <Wellcome displayItems={this.displayItems}/> 
     :
-    <div className="AppBody">
-      {
-        this.state.loadingItemList 
-        ? <h3>Loading...</h3> 
-        : <ItemList items={this.state.items} 
-                displayItem={this.displayItem}/>
-      }
-      
-      <div>
-        <Route  
-          path="/people"
-          expect
-          render={ () => <PersonDetails item={this.state.item} 
-                                        index={this.state.index}
-                                        loading={this.state.loadingItem}/> } />
-        <Route  
-          path="/planet"
-          expect
-          render={ () => <PlanetDetails item={this.state.item} 
-                                        index={this.state.index}
-                                        loading={this.state.loadingItem}/> } />
-        <Route  
-          path="/starship"
-          expect
-          render={ () => <StarshipDetails item={this.state.item} 
-                                          index={this.state.index}
-                                          loading={this.state.loadingItem}/> } />
-      </div>
-    </div>
+    <AppBody loadingItemList={loadingItemList}
+             items={items}
+             displayItem={this.displayItem}
+             item={item}
+             index={index}
+             loading={loadingItem}/>
 
     return (
       <Router>
         <div className="App">
-          <Header displayAllItems={this.displayAllItems}
-                  cleanState={this.cleanState}/>
+          <Header displayItems={this.displayItems}
+                  cleanLoading={this.cleanLoading}/>
           <RandomPlanet />
           {body}
           <Footer />
@@ -151,26 +115,28 @@ class App extends Component {
   }
 }
 
-// const mapStateToProps = state =>{
-//   return{
-//     item: state.appReducer.item,//одиночный элемент(Planet,People,Starship)
-//     items: state.appReducer.items,//массив элементов(Planet,People,Starship)
-//     index: state.appReducer.index,//index(id) одиночного элемента
-//     flag: state.appReducer.flag,//флаг массива элементов
-//     loadingWellcome: state.appReducer.loadingWellcome,//загрузка главной страницы
-//     loadingItem: state.appReducer.loadingItem,//загрузка одиночного элемента
-//     loadingItemList: state.appReducer.loadingItemList//загрузка списка элементов
-//   }
-// }
+const mapStateToProps = state =>{
+  return{
+    item: state.appReducer.item,//одиночный элемент(Planet,People,Starship)
+    items: state.appReducer.items,//массив элементов(Planet,People,Starship)
+    index: state.appReducer.index,//index(id) одиночного элемента
+    flag: state.appReducer.flag,//флаг массива элементов
+  }
+}
 
-// const mapDispatchToProps = dispatch =>{
-//   return{
-//     cleanState: () => dispatch({type: 'CLEAN'}),
-//     updateState: (items, url) => dispatch({type: 'UPDATE_STATE', updateState:{items, url} }),
-//     displayAllItems: (url) => dispatch({type: 'ALL_ITEM', displayAllItems:{url} })
+App.propTypes = {
+  item: PropTypes.object,
+  items: PropTypes.array,
+  index: PropTypes.string,
+  flag: PropTypes.string
+}
 
-//   }
-// }
+const mapDispatchToProps = dispatch =>{
+  return{
+    updateItems: (items, url) => dispatch({type: 'ALL_ITEMS', updateItems:{items, url} }),
+    updateItem: (item, index) => dispatch({type: 'ONE_ITEM', updateItem:{item, index} })
+  }
+}
 
-//export default connect(mapStateToProps,mapDispatchToProps)(App);
-export default App;
+export default connect(mapStateToProps,mapDispatchToProps)(App);
+

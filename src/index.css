@@ -49,6 +49,13 @@ li{
     margin: 0 10px;
 }
 
+.RandomPlanet{
+    min-height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .RPbody{
     display: flex;
     justify-content: center;
