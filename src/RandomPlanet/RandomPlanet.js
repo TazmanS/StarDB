@@ -42,15 +42,18 @@ class RandomPanet extends React.Component {
                         ? 
                         <h3> Loading...  </h3> 
                         :
-                        <div className="RPbody">
-                            <img src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`} alt="" />
-                            <ul>
-                                <li>Name - {name} </li>
-                                <li>Diameter - {diameter} </li>
-                                <li>Rotation Period - {rotation_period} </li>
-                                <li>Population - {population} </li>
-                                <button onClick={this.randomPlanet} className="btn btn-primary">Change Planet</button>
-                            </ul>
+                        <div className="RPbody container">
+                            <div className='row'>
+                                <img src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`} 
+                                    alt="" className='col-12 col-md-6'/>
+                                <ul className='row col-12 col-md-6'>
+                                    <li>Name - {name} </li>
+                                    <li>Diameter - {diameter} </li>
+                                    <li>Rotation Period - {rotation_period} </li>
+                                    <li>Population - {population} </li> 
+                                    <button onClick={this.randomPlanet} className="btn btn-primary">Change Planet</button>
+                                </ul>
+                            </div>
                         </div>
                     }
                 </div>

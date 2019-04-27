@@ -4,6 +4,10 @@ body{
     font-size: 24px;
 }
 
+h3{
+    text-align: center;
+}
+
 a{
     text-decoration: none;
     color: grey;
@@ -21,28 +25,33 @@ li{
 }
 
 .App {
-    width: 800px;
     margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
 }
 
 .AppBody{
-    display: flex;
-    justify-content: space-between;
     margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .Header{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
     margin: 30px 0;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .Header .HeaderLogo{
     font-size: 48px;
+}
+
+.HeaderLinks{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .Header .HeaderLinks a{
@@ -52,21 +61,30 @@ li{
 .RandomPlanet{
     min-height: 300px;
     display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
 }
 
-.RPbody{
+.RPbody div ul{
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    text-align: center;
 }
+
+.RPbody button{
+    margin: 0 auto;
+}
+
 
 .RPbody img{
-    width: 250px;
-    height: 250px;
+    min-width: 200px;
+    min-height: 200px;
+    max-width: 300px;
+    max-height: 300px;
     border-radius: 25%;
     border: 3px solid white;
+    margin: 0 auto;
 }
 
 .RPbody li{
@@ -75,27 +93,32 @@ li{
 
 .Wellcome{
     margin: 30px 0;
+}
+
+.WellcomeBody{
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .Wellcome>div{
-    display: flex;
-    flex-direction: row;
     text-align: center;
 }
 
 .Wellcome a{
     margin: 0 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .Wellcome a img{
     border: 3px solid white;
-    width: 250px;
+    max-width: 250px;
+    width: auto;
     height: auto;
 }
-
 
 .Details li{
     cursor: auto;
@@ -104,6 +127,23 @@ li{
 .Details img{
     width: 150px;
     height: auto;
+}
+
+.PersDetails, .PlanDetails, .StarshDetails{
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    align-items: flex-end;
+}
+
+.ItemList{
+    margin: 0 auto;
+    min-width: 350px;
+}
+
+.ItemList li{
+    text-align: left;
+    margin: 15px auto;
 }
 
 .Footer{

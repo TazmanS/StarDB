@@ -12,31 +12,33 @@ class AppBody extends Component{
         const {items, displayItem, item, index, loading, loadingItemList} = this.props;
         
         return(
-            <div className="AppBody">
-            {
-              loadingItemList 
-              ? <h3>Loading...</h3> 
-              : <ItemList items={items} 
-                          displayItem={displayItem}/>
-            }
+            <div className="AppBody container">
+              <div className='row'>
+                {
+                  loadingItemList 
+                  ? <h3>Loading...</h3> 
+                  : <ItemList items={items} 
+                              displayItem={displayItem} />
+                }
             
-            <div>
-              <Route  
-                path="/people" expect
-                render={ () => <PersonDetails item={item} 
-                                              index={index}
-                                              loading={loading}/> } />
-              <Route  
-                path="/planet" expect
-                render={ () => <PlanetDetails item={item} 
-                                              index={index}
-                                              loading={loading}/> } />
-              <Route  
-                path="/starship" expect
-                render={ () => <StarshipDetails item={item} 
-                                                index={index}
-                                                loading={loading}/> } />
-            </div>
+                <div className='col-12 col-md-6'>
+                  <Route  
+                    path="/StarDB/people" expect
+                    render={ () => <PersonDetails item={item} 
+                                                  index={index}
+                                                  loading={loading}/> } />
+                  <Route  
+                    path="/StarDB/planet" expect
+                    render={ () => <PlanetDetails item={item} 
+                                                  index={index}
+                                                  loading={loading}/> } />
+                  <Route  
+                    path="/StarDB/starship" expect
+                    render={ () => <StarshipDetails item={item} 
+                                                    index={index}
+                                                    loading={loading}/> } />
+                </div>
+              </div>
           </div> 
         )
     }

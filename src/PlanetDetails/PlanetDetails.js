@@ -11,7 +11,7 @@ const PlanetDetails = ({item: { name, diameter, population, rotation_period, cli
             ? 
                 <h3>Loading...</h3> 
             :
-                <React.Fragment>
+                <div className='PlanDetails'>
                     <h3>Planet</h3>
                     <img src={`https://starwars-visualguide.com/assets/img/planets/${index}.jpg`} alt="" />
                     <li>Name - {name}</li>
@@ -19,7 +19,8 @@ const PlanetDetails = ({item: { name, diameter, population, rotation_period, cli
                     <li>Population - {population}</li>
                     <li>Rotation_period - {rotation_period}</li>
                     <li>Climate - {climate}</li>
-                </React.Fragment>
+                </div>
+                
         }
             
         </ul>

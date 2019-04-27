@@ -87,7 +87,7 @@ class App extends Component {
 
   render() {
 
-    const {items, item, index} = this.props;
+    const {items, item, index, flag} = this.props;
     const {loadingItem, loadingItemList, loadingWellcome} = this.state;
 
     const body = loadingWellcome
@@ -99,16 +99,24 @@ class App extends Component {
              displayItem={this.displayItem}
              item={item}
              index={index}
-             loading={loadingItem}/>
+             loading={loadingItem}
+             flag={flag}/>
 
     return (
       <Router>
-        <div className="App">
-          <Header displayItems={this.displayItems}
-                  cleanLoading={this.cleanLoading}/>
-          <RandomPlanet />
-          {body}
-          <Footer />
+        <div className="App container">
+          <div className="row">
+            <div className='col-lg-12
+                            col-md-12
+                            col-sm-10
+                            col-12'>
+              <Header displayItems={this.displayItems}
+                    cleanLoading={this.cleanLoading}/>
+              <RandomPlanet />
+              {body}
+              <Footer />
+            </div>
+          </div>
         </div>
       </Router>
     );

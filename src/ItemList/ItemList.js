@@ -13,9 +13,12 @@ class ItemList extends Component{
         })
 
         return (
-            <ul className="ItemList">
-                {item}
-            </ul>
+            <div className='col-12 col-md-6'>
+                <ul className="ItemList">
+                    {item}
+                </ul>
+            </div>
+            
         )  
     }
 }
