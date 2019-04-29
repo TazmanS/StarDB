@@ -17,7 +17,7 @@ const PlanetDetails = ({item: { name, diameter, population, rotation_period, cli
                     <li>Name - {name}</li>
                     <li>Diameter - {diameter}</li>
                     <li>Population - {population}</li>
-                    <li>Rotation_period - {rotation_period}</li>
+                    <li>Rotation Period - {rotation_period}</li>
                     <li>Climate - {climate}</li>
                 </div>
                 

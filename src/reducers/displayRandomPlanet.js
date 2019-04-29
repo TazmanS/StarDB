@@ -1,3 +1,5 @@
+import {UPDATE_RANDOM_PLANET} from '../actions/actionTypes'
+
 
 const initialState = {
     planet: {},
@@ -6,7 +8,7 @@ const initialState = {
 
 const displayRandomPlanet = function(state = initialState, actions){
     switch(actions.type){
-        case "UPDATE":
+        case UPDATE_RANDOM_PLANET:
             return{
                 planet: actions.planet,
                 id: actions.id

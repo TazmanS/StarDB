@@ -8,6 +8,7 @@ import AppBody from '../AppBody/AppBody'
 import {BrowserRouter as Router} from 'react-router-dom'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
+import {appUpdateItem, appUpdateItems} from '../actions/actionApp'
 
 
 class App extends Component {
@@ -108,7 +109,7 @@ class App extends Component {
           <div className="row">
             <div className='col-lg-12
                             col-md-12
-                            col-sm-10
+                            col-sm-12
                             col-12'>
               <Header displayItems={this.displayItems}
                     cleanLoading={this.cleanLoading}/>
@@ -141,8 +142,8 @@ App.propTypes = {
 
 const mapDispatchToProps = dispatch =>{
   return{
-    updateItems: (items, url) => dispatch({type: 'ALL_ITEMS', updateItems:{items, url} }),
-    updateItem: (item, index) => dispatch({type: 'ONE_ITEM', updateItem:{item, index} })
+    updateItems: (items, url) => dispatch( appUpdateItems(items, url) ),
+    updateItem: (item, index) => dispatch( appUpdateItem(item, index) )
   }
 }
 

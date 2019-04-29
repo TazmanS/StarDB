@@ -1,4 +1,4 @@
-/* eslint-disable no-fallthrough */
+import {APP_UPDATE_ITEMS, APP_UPDATE_ITEM} from '../actions/actionTypes'
 
 const initialState = {
     item: {},//одиночный элемент(Planet,People,Starship)
@@ -11,14 +11,14 @@ const appReducer = (state = initialState, actions) => {
 
     switch(actions.type){
             
-        case 'ALL_ITEMS':
+        case APP_UPDATE_ITEMS:
             return{
                 ...state,
                 items: actions.updateItems.items.results,
                 flag: actions.updateItems.url
             }
 
-        case "ONE_ITEM":
+        case APP_UPDATE_ITEM:
             return{
                 ...state,
                 item: actions.updateItem.item,

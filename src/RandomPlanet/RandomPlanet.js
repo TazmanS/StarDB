@@ -1,6 +1,7 @@
 import React from 'react'
 import Swapi from './../Swapi'
 import {connect} from 'react-redux'
+import {updateRandomPlanet} from '../actions/actionRandomPlanet'
 
 class RandomPanet extends React.Component {
 
@@ -71,7 +72,7 @@ const mapStateToProps = (state) =>{
 
 const mapDispatchToProps = (dispatch) => {
     return{ //обновление планеты
-        updateRandomPlanet: (planet, id) => dispatch({ type: "UPDATE", planet, id })
+        updateRandomPlanet: (planet, id) => dispatch(updateRandomPlanet(planet, id))
     }
 }
 
