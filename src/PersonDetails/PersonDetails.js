@@ -1,9 +1,14 @@
 import React from 'react'
+import {connect} from 'react-redux'
+import {detailsChangeId} from '../actions/actionApp'
 
-const PersonDetails = ({item : {name, gender, height, mass, eye_color}, index, loading}) =>{
+const PersonDetails = ({item : {name, gender, height, mass, eye_color}, 
+                        arrIndex, items, index, loading, changeId, flag}) =>{
+                            
     if( gender === undefined){
         return false
     }
+
     return (
         <div className="PersonDetails Details">
             {
@@ -20,6 +25,16 @@ const PersonDetails = ({item : {name, gender, height, mass, eye_color}, index, l
                         <li>Height - {height}</li>
                         <li>Mass - {mass}</li>
                         <li>Eye color - {eye_color}</li>
+                        <span>
+                            <button className="btn btn-primary"
+                                onClick={ () => changeId(-1, items, arrIndex, flag)}
+                                >Prev
+                            </button>
+                            <button className='btn btn-danger'
+                                onClick={ () => changeId(1, items, arrIndex, flag)}
+                                >Next
+                            </button>  
+                        </span>
                     </ul>
                 </div>
             }
@@ -27,4 +42,20 @@ const PersonDetails = ({item : {name, gender, height, mass, eye_color}, index, l
     )
 }
 
-export default PersonDetails
+const mapStateToProps = (state) =>{
+    return{
+        item: state.appReducer.item,
+        items: state.appReducer.items,
+        index: state.appReducer.index,
+        arrIndex: state.appReducer.arrIndex,
+        flag: state.appReducer.flag
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return{
+        changeId: (num, items, arrIndex, flag) => dispatch( detailsChangeId(num, items, arrIndex, flag) )
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PersonDetails)

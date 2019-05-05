@@ -12,14 +12,14 @@ import {appUpdateItem, appUpdateItems} from '../actions/actionApp'
 
 
 class App extends Component {
-
+  
   //Обращение к API сервера
   swapi = new Swapi();
 
   state = {
     loadingWellcome: true,//загрузка главной страницы
     loadingItem: true,//загрузка одиночного элемента
-    loadingItemList: true//загрузка списка элементов
+    loadingItemList: false//загрузка списка элементов
   }
 
   cleanLoading = () => {
@@ -30,78 +30,40 @@ class App extends Component {
     })
   }
 
-  //Получение списка
-  displayItems = (url) =>{
-
-    this.setState({loadingItemList: true, loadingWellcome: false})
-
-    if(url === 'PEOPLE'){
-      this.swapi.getAllPeople()
-        .then((items) => this.displayItemsUpdateState(items, url) )
-    }      
-        
-    else if(url === 'PLANET'){
-      this.swapi.getAllPlanet()
-        .then((items) => this.displayItemsUpdateState(items, url) )
-    }      
-        
-    else if(url === 'STARSHIP'){
-      this.swapi.getAllStarship()
-        .then((items) => this.displayItemsUpdateState(items, url) )
-    }       
+  componentWillReceiveProps(){
+    this.setState({
+      loadingItemList: false,
+      loadingItem: false})
   }
-  //функция обновления state для displayItems
-  displayItemsUpdateState = (items, url) => {
-    this.props.updateItems(items, url)
-    this.setState({loadingItemList: false})
+
+  //Получение списка
+  displayItems = (flag) =>{
+    this.setState({loadingWellcome: false, loadingItemList: true})
+    this.props.updateItems(flag);
   }
 
   //Получение элемента
-  displayItem = (url) =>{
-
-    const reg = /[0-9]/g;
-
-    const index = url.match(reg).join("");
-
+  displayItem = (url_ID, arrIndex) =>{
+    const flag = this.props.flag;
     this.setState({loadingItem: true})
-
-    if(this.props.flag === "PEOPLE"){
-      this.swapi.getPeople(index)
-      .then((item) => this.displayItemUpdateState(item, index) )
-    }
-
-    else if(this.props.flag === "PLANET"){
-      this.swapi.getPlanet(index)
-      .then((item) => this.displayItemUpdateState(item, index) )
-    }
-    
-    else if(this.props.flag === "STARSHIP"){
-      this.swapi.getStarship(index)
-        .then((item) => this.displayItemUpdateState(item, index) )
-    }
-  }
-  //функция обновления state для displayItem
-  displayItemUpdateState = (item, index) => {
-    this.props.updateItem(item, index)
-    this.setState({loadingItem: false})
+    this.props.updateItem(url_ID, flag, arrIndex)
   }
 
   render() {
-
-    const {items, item, index, flag} = this.props;
+    
+    const {items} = this.props;
     const {loadingItem, loadingItemList, loadingWellcome} = this.state;
-
-    const body = loadingWellcome
+    
+    const body = 
+      loadingWellcome
     ? 
-    <Wellcome displayItems={this.displayItems}/> 
+      <Wellcome displayItems={this.displayItems}/> 
     :
-    <AppBody loadingItemList={loadingItemList}
-             items={items}
-             displayItem={this.displayItem}
-             item={item}
-             index={index}
-             loading={loadingItem}
-             flag={flag}/>
+      <AppBody loadingItemList={loadingItemList}
+              items={items}
+              displayItem={this.displayItem}
+              loading={loadingItem}
+      />
 
     return (
       <Router>
@@ -112,7 +74,7 @@ class App extends Component {
                             col-sm-12
                             col-12'>
               <Header displayItems={this.displayItems}
-                    cleanLoading={this.cleanLoading}/>
+                      cleanLoading={this.cleanLoading}/>
               <RandomPlanet />
               {body}
               <Footer />
@@ -130,20 +92,22 @@ const mapStateToProps = state =>{
     items: state.appReducer.items,//массив элементов(Planet,People,Starship)
     index: state.appReducer.index,//index(id) одиночного элемента
     flag: state.appReducer.flag,//флаг массива элементов
+    arrIndex: state.appReducer.arrIndex //номер индекса в массиве
   }
 }
 
 App.propTypes = {
   item: PropTypes.object,
   items: PropTypes.array,
-  index: PropTypes.string,
-  flag: PropTypes.string
+  index: PropTypes.number,
+  flag: PropTypes.string,
+  arrIndex: PropTypes.number
 }
 
 const mapDispatchToProps = dispatch =>{
   return{
     updateItems: (items, url) => dispatch( appUpdateItems(items, url) ),
-    updateItem: (item, index) => dispatch( appUpdateItem(item, index) )
+    updateItem: (item, index, arrIndex) => dispatch( appUpdateItem(item, index, arrIndex) )
   }
 }
 

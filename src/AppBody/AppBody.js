@@ -9,7 +9,7 @@ import StarshipDetails from '../StarshipDetails/StarshipDetails'
 class AppBody extends Component{
     render(){
 
-        const {items, displayItem, item, index, loading, loadingItemList} = this.props;
+        const {items, displayItem, loading, loadingItemList} = this.props;
         
         return(
             <div className="AppBody container">
@@ -18,25 +18,22 @@ class AppBody extends Component{
                   loadingItemList 
                   ? <h3>Loading...</h3> 
                   : <ItemList items={items} 
-                              displayItem={displayItem} />
+                              displayItem={displayItem}/>
                 }
             
                 <div className='col-12 col-md-6'>
                   <Route  
                     path="/StarDB/people" expect
-                    render={ () => <PersonDetails item={item} 
-                                                  index={index}
-                                                  loading={loading}/> } />
+                    render={ () => <PersonDetails loading={loading}/> } 
+                  />
                   <Route  
                     path="/StarDB/planet" expect
-                    render={ () => <PlanetDetails item={item} 
-                                                  index={index}
-                                                  loading={loading}/> } />
+                    render={ () => <PlanetDetails loading={loading}/> } 
+                  />
                   <Route  
                     path="/StarDB/starship" expect
-                    render={ () => <StarshipDetails item={item} 
-                                                    index={index}
-                                                    loading={loading}/> } />
+                    render={ () => <StarshipDetails loading={loading}/> } 
+                  />
                 </div>
               </div>
           </div> 

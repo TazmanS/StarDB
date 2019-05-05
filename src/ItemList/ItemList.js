@@ -1,12 +1,13 @@
-import React,  {Component } from 'react'
+import React, {Component} from 'react'
 
 class ItemList extends Component{
    
     render(){ 
         const item = this.props.items.map((item, index) => {
+            const arrIndex = index;
             return(
                 <li key={index}
-                onClick={() => this.props.displayItem(item.url) }>
+                onClick={() => this.props.displayItem(item.url, arrIndex) }>
                     {item.name}
                 </li>
             )

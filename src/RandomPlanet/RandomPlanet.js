@@ -10,29 +10,31 @@ class RandomPanet extends React.Component {
 
     //Загрузка страницы
     state = {
-        loading: true
+        loading: false
     }
 
     //Отображение начальной случайной планеты
     componentDidMount(){
-        this.randomPlanet();
+        this.changePlanet();
     }
 
-    //Получение данных от API
-    randomPlanet = () =>{
+    componentWillReceiveProps(){
+        this.stateLoadingFalse();
+    }
+
+    changePlanet(){
         this.setState({loading: true})
-        const id = Math.floor(Math.random() * 20) + 2;
-        this.swapi
-            .getPlanet(id)
-            .then((planet) => {
-                this.props.updateRandomPlanet(planet, id)
-                this.setState({loading: false})
-            })
+        this.props.updateRandomPlanet()
     }
-    
 
-    render(){
+    stateLoadingFalse(){
+        this.setState({loading: false})
+    }
+
     
+    
+    render(){
+        
         const { planet: { name, diameter, rotation_period, population}, id } = this.props;
 
         return (
@@ -52,7 +54,7 @@ class RandomPanet extends React.Component {
                                     <li>Diameter - {diameter} </li>
                                     <li>Rotation Period - {rotation_period} </li>
                                     <li>Population - {population} </li> 
-                                    <button onClick={this.randomPlanet} className="btn btn-primary">Change Planet</button>
+                                    <button onClick={ () => this.changePlanet()} className="btn btn-primary">Change Planet</button>
                                 </ul>
                             </div>
                         </div>
@@ -66,13 +68,13 @@ class RandomPanet extends React.Component {
 const mapStateToProps = (state) =>{
     return{
         planet: state.displayRandomPlanet.planet, //массив с данными планеты
-        id: state.displayRandomPlanet.id //id плагнеты для отображения картинки
+        id: state.displayRandomPlanet.id //id планеты для отображения картинки
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return{ //обновление планеты
-        updateRandomPlanet: (planet, id) => dispatch(updateRandomPlanet(planet, id))
+        updateRandomPlanet: () => dispatch(updateRandomPlanet() )
     }
 }
 

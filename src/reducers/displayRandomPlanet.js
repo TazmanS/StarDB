@@ -7,6 +7,7 @@ const initialState = {
 }
 
 const displayRandomPlanet = function(state = initialState, actions){
+
     switch(actions.type){
         case UPDATE_RANDOM_PLANET:
             return{

@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom';
 import App from './App/App';
 import './index.css'
 import {Provider} from 'react-redux'
-import {createStore} from 'redux'
+import {createStore, applyMiddleware} from 'redux'
+import reduxThunk from 'redux-thunk'
 import reducer from './reducers/reducer'
 
-const store = createStore(reducer)
+const store = createStore(reducer, applyMiddleware(
+    reduxThunk
+))
 
 const app = <Provider store={store}>
     <App />
